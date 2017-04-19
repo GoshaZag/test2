@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.example.zagvozkings.test2.customView.CustomTableView;
 import com.example.zagvozkings.test2.storage.TableData;
 import com.example.zagvozkings.test2.ui.activity.BaseActivity;
+import com.example.zagvozkings.test2.utility.Table;
 import com.example.zagvozkings.test2.utility.TypeTable;
 import com.example.zagvozkings.test2.ui.fragment.interfaces.AddTableView;
 import com.example.zagvozkings.test2.ui.fragment.interfaces.CreateTableModel;
@@ -58,21 +59,8 @@ public class CreateViewPresenterImp implements CreateViewPresenter{
         if (tableView == null)
             tableView = new CustomTableView(context);
 
-        tableView.setText(name);
-        tableView.setType(type);
-        tableView.setSize(width, height);
-        tableView.setRotation(tableModel.getRotate());
-        tableView.setMargin(tableModel.getX(), tableModel.getY());
-
         final CustomTableView finalTableView = tableView;
-        tableView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentAddTable_ dialog = new FragmentAddTable_();
-                tableData.setChangeTable(finalTableView);
-                base.openDialog(dialog);
-            }
-        });
+        tableView.setTable(new Table(name, type, width, height, tableModel.getX(), tableModel.getY(), tableModel.getRotate()));
 
         createView(tableView);
 

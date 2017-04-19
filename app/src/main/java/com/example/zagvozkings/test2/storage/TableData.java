@@ -8,11 +8,20 @@ import org.androidannotations.annotations.EBean;
 public class TableData {
 
     private CustomTableView changeTable;
+    private float scale;
 
     public CustomTableView getChangeTable() {
         return changeTable;
     }
     public void setChangeTable(CustomTableView changeTable) {
         this.changeTable = changeTable;
+    }
+
+    public void setScale(float scale) {
+        this.scale = scale;
+    }
+
+    public float getScale() {
+        return scale;
     }
 }

@@ -6,6 +6,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.example.zagvozkings.test2.R;
+import com.example.zagvozkings.test2.customView.CustomTableView;
 import com.example.zagvozkings.test2.storage.TableData;
 import com.example.zagvozkings.test2.ui.activity.BaseActivity;
 import com.example.zagvozkings.test2.ui.activity.main.interfaces.CreateHallPresenter;
@@ -49,11 +50,19 @@ public class MainActivity extends BaseActivity implements MainView{
     }
 
     @Override
-    public void addView(View view){
+    public void addView(final CustomTableView view){
         if (MainHall != null && view != null) {
             ViewGroup parentView = (ViewGroup) view.getParent();
             if (parentView != null) parentView.removeView(view);
             MainHall.addView(view);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentAddTable_ dialog = new FragmentAddTable_();
+                    tableData.setChangeTable(view);
+                    openDialog(dialog);
+                }
+            });
         }
     }
 
