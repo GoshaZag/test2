@@ -28,6 +28,8 @@ public class FragmentAddTable extends DialogFragment implements AddTableView{
 
     @AfterViews
     void init(){
+        //подождем, когда создадуться все view после повесим слушатели,
+        // при необходимости (редактировании) заполним старые данные для ввода
         FRAddMain.post(new Runnable() {
             @Override
             public void run() {
@@ -38,11 +40,15 @@ public class FragmentAddTable extends DialogFragment implements AddTableView{
 
     @Click(R.id.FragmentAddTable)
     protected void add(){
+        //да будет новый стол!
+        //эх, а где же стулья?
         createViewPre.init(this);
     }
 
     public void addTable(CustomTableView table){
         if (table != null){
+            //можно обращаться сразу на активность и там добалять стол
+            //но мы заносим столы через хол (MVP надо что-то возвращать)
             MainActivity mainActivity = (MainActivity)getActivity();
             if (mainActivity != null)
                 mainActivity.addView(table);

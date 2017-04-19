@@ -88,6 +88,7 @@ public class CreateTableModelImp implements CreateTableModel{
 
     @Override
     public Float getRotate()   {
+        //ну если определили ширину и высоту, то с остальным не должно быть проблем
         String rotate = FRTurn.getText().toString();
         if (rotate.equals("")) return 0f;
         return Float.parseFloat(rotate);
@@ -95,7 +96,8 @@ public class CreateTableModelImp implements CreateTableModel{
 
     @Override
     public TypeTable getType() {
-        if (TableCicle.isChecked()) return TypeTable.cicle;
+        //ну если определили ширину и высоту, то с остальным не должно быть проблем
+        if (TableCicle.isChecked()) return TypeTable.cycle;
         if (TableRectangle.isChecked()) return TypeTable.rectangle;
         return null;
     }

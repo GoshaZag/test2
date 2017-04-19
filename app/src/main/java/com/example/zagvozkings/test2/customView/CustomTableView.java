@@ -38,7 +38,7 @@ public class CustomTableView extends AppCompatTextView{
     public void setType(TypeTable type) {
         this.type = type;
         //берем готовый drawable, чтоб проще было заменить на другой
-        if (type == TypeTable.cicle){
+        if (type == TypeTable.cycle){
             setBackgroundResource(R.drawable.table_cicle);
         } else {
             setBackgroundResource(R.drawable.table_rectangle);

@@ -45,11 +45,13 @@ public class CreateHallPresenterImp implements CreateHallPresenter {
     @Override
     public void init(MainView mainView) {
 
+        //измеряем зал, если темно и нет рулетки, то используем размеры по умолчанию
         Integer width = hallSizeModel.getWidth();
         Integer height = hallSizeModel.getHeight();
         if (width == null)  width  = DEFAULT_HALL_WIDTH;
         if (height == null) height = DEFAULT_HALL_HEIGHT;
 
+        //создаем коэффициент для зала и столов
         float tempW = width / (float) Main.getWidth();
         float tempH = height /(float) Main.getHeight();
         float scale = (tempW > tempH) ? tempW : tempH;
@@ -58,14 +60,14 @@ public class CreateHallPresenterImp implements CreateHallPresenter {
         int layoutWidth = (int) (width / scale);
         int layoutHeight = (int) (height / scale);
 
+        //зал известен,
         MainHall = new RelativeLayout(context);
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(layoutWidth, layoutHeight);
         MainHall.setLayoutParams(lp);
         MainHall.setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryDark));
-
         mainView.addHall(MainHall);
 
-        //добавим столы по умолчанию
+        //если в зале нет столов, добавим столы по умолчанию
         List<Table> listTable = tableData.getListTable();
         if (listTable == null) {
             tableData.setTableView(new Table(0, "Стол 1", TypeTable.rectangle, 340, 340, 170, 170, 0f));
@@ -73,6 +75,7 @@ public class CreateHallPresenterImp implements CreateHallPresenter {
             listTable = tableData.getListTable();
         }
 
+        //если есть столы, то после небольшого дебоша (переворот экрана) выставляем все столы правильно
         for (Table table : listTable){
             CustomTableView customTableView = new CustomTableView(context, table);
             if (tableData.getChangeTable() != null) {

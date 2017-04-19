@@ -50,7 +50,9 @@ public class CreateViewPresenterImp implements CreateViewPresenter{
             return;
         }
 
+        //вот и новый стол, он будет с такими параметрами
         Table table = new Table(tableData.getID(), name, type, width, height, tableModel.getX(), tableModel.getY(), tableModel.getRotate());
+        //нужно ли выносить старый? (проверяем редактируем ли старый или делаем новый)
         CustomTableView tableView = tableData.getChangeTable();
         if (tableView == null) {
             tableView = new CustomTableView(context);
@@ -64,6 +66,7 @@ public class CreateViewPresenterImp implements CreateViewPresenter{
 
     }
 
+    //аа-аа-а что-то не так!!
     private void showToast(String message) {
         if (context != null && message!= null)
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show();

@@ -84,9 +84,13 @@ class ChangeDataOnView {
         //проверим, создаем новое или редактируем старое
         final CustomTableView oldTableView = tableData.getChangeTable();
         if (oldTableView == null) return;
+
         if (oldTableView.isInLayout()){
             zapoln(oldTableView);
         } else {
+            //при повороте во время редактирования, нового стола еще нет в зале
+            //в зале остался старый стол
+            //подождем грузчиков, когда закончат заносить столы
             oldTableView.post(new Runnable() {
                 @Override
                 public void run() {
@@ -106,7 +110,7 @@ class ChangeDataOnView {
 
         TypeTable typeTable = oldTableView.type;
         switch (typeTable){
-            case cicle:
+            case cycle:
                 TableCicle.setChecked(true);
                 FRRadius.setText(String.valueOf((int) (oldTableView.getWidth() * scale) / 2));
                 break;

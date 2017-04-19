@@ -36,6 +36,7 @@ public class MainActivity extends BaseActivity implements MainView{
     @AfterViews
     protected void createHall(){
         final MainView mainView = this;
+        //нужно делать относительно разметки для зала, т.к. она может быть меньше экрана))
         Main.post(new Runnable() {
             @Override
             public void run() {
@@ -46,6 +47,8 @@ public class MainActivity extends BaseActivity implements MainView{
 
     @Click(R.id.MaimADD)
     protected void showSelected(){
+        //будем создавать новый, ане редактировать.
+        //в обоих случаях используем один и тот же диалог
         tableData.setChangeTable(null);
         openDialog(new FragmentAddTable_());
     }
@@ -53,10 +56,14 @@ public class MainActivity extends BaseActivity implements MainView{
     @Override
     public void addView(final CustomTableView view){
         if (MainHall != null && view != null) {
+            //если мы редактируем стол, то он привязан к залу
+            //по сути мы не редактируем стол, а выносим старый и заносим новый
+            //старый нужно вынести из зала)))
             ViewGroup parentView = (ViewGroup) view.getParent();
             if (parentView != null)
                 parentView.removeView(view);
             MainHall.addView(view);
+            //если сильно нажать на стол, то он сломается, и мы его меняем
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
