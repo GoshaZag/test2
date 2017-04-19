@@ -1,7 +1,6 @@
 package com.example.zagvozkings.test2.ui.fragment;
 
 import android.content.Context;
-import android.view.View;
 import android.widget.Toast;
 
 import com.example.zagvozkings.test2.customView.CustomTableView;
@@ -30,15 +29,11 @@ public class CreateViewPresenterImp implements CreateViewPresenter{
     @Bean
     protected TableData tableData;
 
-    private AddTableView view;
-
     public void init(AddTableView view) {
-
-        this.view = view;
 
         String name = tableModel.getName();
         if (name == null || name.equals("")){
-            showToast("Укажите наименование стола");
+            showToast("Укажите название стола");
             return;
         }
 
@@ -55,14 +50,17 @@ public class CreateViewPresenterImp implements CreateViewPresenter{
             return;
         }
 
+        Table table = new Table(tableData.getID(), name, type, width, height, tableModel.getX(), tableModel.getY(), tableModel.getRotate());
         CustomTableView tableView = tableData.getChangeTable();
-        if (tableView == null)
+        if (tableView == null) {
             tableView = new CustomTableView(context);
+        } else {
+            tableData.removeTable(tableView.getIdTable());
+        }
+        tableData.setTableView(table);//добавим стол в бд
+        tableView.setTable(table);//отправим данные в виев
 
-        final CustomTableView finalTableView = tableView;
-        tableView.setTable(new Table(name, type, width, height, tableModel.getX(), tableModel.getY(), tableModel.getRotate()));
-
-        createView(tableView);
+        view.addTable(tableView);
 
     }
 
@@ -71,7 +69,4 @@ public class CreateViewPresenterImp implements CreateViewPresenter{
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 
-    private void createView(CustomTableView table) {
-        view.addTable(table);
-    }
 }

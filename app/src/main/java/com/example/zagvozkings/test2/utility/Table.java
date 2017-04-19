@@ -2,6 +2,7 @@ package com.example.zagvozkings.test2.utility;
 
 public class Table {
 
+    public Integer id;
     public String name;
     public TypeTable type;
     public Integer width;
@@ -10,7 +11,8 @@ public class Table {
     public Integer y;
     public Float rotate;
 
-    public Table(String name, TypeTable type, int width, int height, int x, int y, Float rotate) {
+    public Table(Integer id, String name, TypeTable type, int width, int height, int x, int y, Float rotate) {
+        this.id = id;
         this.name = name;
         this.x = x;
         this.y = y;

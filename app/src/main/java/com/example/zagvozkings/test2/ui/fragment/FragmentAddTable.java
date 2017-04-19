@@ -15,9 +15,6 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @EFragment(R.layout.dialog_add_table)
 public class FragmentAddTable extends DialogFragment implements AddTableView{
 
@@ -28,8 +25,6 @@ public class FragmentAddTable extends DialogFragment implements AddTableView{
 
     @ViewById
     protected LinearLayout FRAddMain;
-
-    List<CustomTableView> listTable = new ArrayList<>();
 
     @AfterViews
     void init(){
@@ -48,7 +43,6 @@ public class FragmentAddTable extends DialogFragment implements AddTableView{
 
     public void addTable(CustomTableView table){
         if (table != null){
-            listTable.add(table);
             MainActivity mainActivity = (MainActivity)getActivity();
             if (mainActivity != null)
                 mainActivity.addView(table);

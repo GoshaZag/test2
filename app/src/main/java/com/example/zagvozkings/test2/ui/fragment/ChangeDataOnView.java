@@ -44,11 +44,9 @@ class ChangeDataOnView {
     protected EditText FRTurn;
 
     @ViewById
-    protected LinearLayout Cicle1;
+    protected LinearLayout Cicle;
     @ViewById
-    protected LinearLayout Rectangle1;
-    @ViewById
-    protected LinearLayout Rectangle2;
+    protected LinearLayout Rectangle;
 
 
     public void init() {
@@ -58,12 +56,11 @@ class ChangeDataOnView {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (!isChecked){
-                    Cicle1.setVisibility(View.GONE);
+                    Cicle.setVisibility(View.GONE);
                 } else {
                     TableRectangle.setChecked(false);
-                    Rectangle1.setVisibility(View.GONE);
-                    Rectangle2.setVisibility(View.GONE);
-                    Cicle1.setVisibility(View.VISIBLE);
+                    Rectangle.setVisibility(View.GONE);
+                    Cicle.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -71,35 +68,52 @@ class ChangeDataOnView {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (!isChecked){
-                    Rectangle1.setVisibility(View.GONE);
-                    Rectangle2.setVisibility(View.GONE);
+                    Rectangle.setVisibility(View.GONE);
                 } else {
                     TableCicle.setChecked(false);
-                    Cicle1.setVisibility(View.GONE);
-                    Rectangle1.setVisibility(View.VISIBLE);
-                    Rectangle2.setVisibility(View.VISIBLE);
+                    Cicle.setVisibility(View.GONE);
+                    Rectangle.setVisibility(View.VISIBLE);
                 }
             }
         });
 
+        //при повороте проверим
+        if (TableCicle.isChecked()) Cicle.setVisibility(View.VISIBLE);
+        if (TableRectangle.isChecked()) Rectangle.setVisibility(View.VISIBLE);
+
         //проверим, создаем новое или редактируем старое
-        CustomTableView oldTableView = tableData.getChangeTable();
+        final CustomTableView oldTableView = tableData.getChangeTable();
         if (oldTableView == null) return;
+        if (oldTableView.isInLayout()){
+            zapoln(oldTableView);
+        } else {
+            oldTableView.post(new Runnable() {
+                @Override
+                public void run() {
+                    zapoln(oldTableView);
+                }
+            });
+        }
+    }
+
+    private void zapoln(CustomTableView oldTableView) {
         TableName.setText(oldTableView.getText());
 
-        FRX.setText(String.valueOf(oldTableView.getLeft() + oldTableView.getWidth() / 2));
-        FRY.setText(String.valueOf(oldTableView.getTop() + oldTableView.getHeight() / 2));
+
+        float scale = tableData.getScale();
+        FRX.setText(String.valueOf((int)((oldTableView.getLeft() + oldTableView.getWidth() / 2) * scale)));
+        FRY.setText(String.valueOf((int)((oldTableView.getTop() + oldTableView.getHeight() / 2) * scale)));
 
         TypeTable typeTable = oldTableView.type;
         switch (typeTable){
             case cicle:
                 TableCicle.setChecked(true);
-                FRRadius.setText(String.valueOf(oldTableView.getWidth() / 2));
+                FRRadius.setText(String.valueOf((int) (oldTableView.getWidth() * scale) / 2));
                 break;
             case rectangle:
                 TableRectangle.setChecked(true);
-                FRWidth.setText(String.valueOf(oldTableView.getWidth()));
-                FRHeight.setText(String.valueOf(oldTableView.getHeight()));
+                FRWidth.setText(String.valueOf((int) (oldTableView.getWidth() * scale)));
+                FRHeight.setText(String.valueOf((int) (oldTableView.getHeight() * scale)));
                 FRTurn.setText(String.valueOf(oldTableView.getRotation()));
                 break;
         }

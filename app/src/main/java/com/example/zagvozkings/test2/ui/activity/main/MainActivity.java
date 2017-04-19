@@ -27,6 +27,7 @@ public class MainActivity extends BaseActivity implements MainView{
 
     @Bean
     protected TableData tableData;
+
     @Bean(CreateHallPresenterImp.class)
     protected CreateHallPresenter createHallPresenter;
 
@@ -53,7 +54,8 @@ public class MainActivity extends BaseActivity implements MainView{
     public void addView(final CustomTableView view){
         if (MainHall != null && view != null) {
             ViewGroup parentView = (ViewGroup) view.getParent();
-            if (parentView != null) parentView.removeView(view);
+            if (parentView != null)
+                parentView.removeView(view);
             MainHall.addView(view);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override

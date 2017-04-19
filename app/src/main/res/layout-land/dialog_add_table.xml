@@ -7,16 +7,17 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_margin="5dp"
         android:padding="5dp"
-        android:layout_width="350dp"
+        android:layout_width="600dp"
         android:layout_height="wrap_content">
     <TextView
         android:text="Название стола"
         android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_marginRight="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
         <EditText
             android:id="@+id/TableName"
             android:layout_width="match_parent"
@@ -24,16 +25,17 @@
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_margin="5dp"
         android:padding="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
             android:text="Расположение центра"
+            android:layout_marginRight="30dp"
             android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -72,69 +74,80 @@
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-        <CheckBox
-            android:id="@+id/TableCicle"
-            android:text="круглый"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <CheckBox
-            android:id="@+id/TableRectangle"
-            android:text="прямоугольный"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
         <LinearLayout
-            android:id="@+id/Cicle"
-            android:visibility="gone"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <TextView
-                android:text="Радиус:"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <EditText
-                android:id="@+id/FRRadius"
-                android:inputType="number"
+            <CheckBox
+                android:id="@+id/TableCicle"
+                android:text="круглый"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent" />
+            <LinearLayout
+                android:id="@+id/Cicle"
+                android:visibility="gone"
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="Радиус:"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:id="@+id/FRRadius"
+                    android:inputType="number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
         </LinearLayout>
         <LinearLayout
-            android:id="@+id/Rectangle"
-            android:visibility="gone"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <TextView
-                android:text="длина:"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <EditText
-                android:id="@+id/FRWidth"
-                android:inputType="number"
+            <CheckBox
+                android:id="@+id/TableRectangle"
+                android:text="прямоугольный"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:text="ширина:"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <EditText
-                android:id="@+id/FRHeight"
-                android:inputType="number"
+                android:layout_height="match_parent" />
+            <LinearLayout
+                android:id="@+id/Rectangle"
+                android:visibility="gone"
                 android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:text="Поворот"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <EditText
-                android:id="@+id/FRTurn"
-                android:inputType="number"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content" />
+                android:layout_weight="3"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="Длина:"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:id="@+id/FRWidth"
+                    android:inputType="number"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:text="Ширина:"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:id="@+id/FRHeight"
+                    android:inputType="number"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:text="Поворот"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:id="@+id/FRTurn"
+                    android:inputType="number"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 

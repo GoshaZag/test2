@@ -3,7 +3,6 @@ package com.example.zagvozkings.test2.customView;
 import android.content.Context;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.Gravity;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
@@ -15,6 +14,7 @@ import com.example.zagvozkings.test2.utility.TypeTable;
 public class CustomTableView extends AppCompatTextView{
 
     //по умолчанию
+    private Integer idTable;
     private int height = 100;
     private int width = 100;
     public TypeTable type = TypeTable.rectangle;
@@ -67,10 +67,15 @@ public class CustomTableView extends AppCompatTextView{
     }
 
     public void setTable(Table table) {
+        idTable = table.id;
         setText(table.name);
         setType(table.type);
         setSize(table.width, table.height);
         setRotation(table.rotate);
         setMargin(table.x, table.y);
+    }
+
+    public Integer getIdTable() {
+        return idTable;
     }
 }

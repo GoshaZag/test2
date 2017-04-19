@@ -12,7 +12,6 @@ import com.example.zagvozkings.test2.ui.activity.BaseActivity;
 import com.example.zagvozkings.test2.ui.activity.main.interfaces.CreateHallPresenter;
 import com.example.zagvozkings.test2.ui.activity.main.interfaces.HallSizeModel;
 import com.example.zagvozkings.test2.ui.activity.main.interfaces.MainView;
-import com.example.zagvozkings.test2.ui.fragment.FragmentAddTable_;
 import com.example.zagvozkings.test2.utility.Table;
 import com.example.zagvozkings.test2.utility.TypeTable;
 
@@ -20,6 +19,8 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 import org.androidannotations.annotations.ViewById;
+
+import java.util.List;
 
 @EBean
 public class CreateHallPresenterImp implements CreateHallPresenter {
@@ -65,8 +66,22 @@ public class CreateHallPresenterImp implements CreateHallPresenter {
         mainView.addHall(MainHall);
 
         //добавим столы по умолчанию
-        mainView.addView(new CustomTableView(context, new Table("Стол 1", TypeTable.rectangle, 340, 340, 170, 170, 0f)));
-        mainView.addView(new CustomTableView(context, new Table("Стол 1", TypeTable.rectangle, 340, 340, 510, 510, 0f)));
+        List<Table> listTable = tableData.getListTable();
+        if (listTable == null) {
+            tableData.setTableView(new Table(0, "Стол 1", TypeTable.rectangle, 340, 340, 170, 170, 0f));
+            tableData.setTableView(new Table(1, "Стол 1", TypeTable.rectangle, 340, 340, 510, 510, 0f));
+            listTable = tableData.getListTable();
+        }
+
+        for (Table table : listTable){
+            CustomTableView customTableView = new CustomTableView(context, table);
+            if (tableData.getChangeTable() != null) {
+                if (table.id.equals(tableData.getChangeTable().getIdTable())){
+                    tableData.setChangeTable(customTableView);
+                }
+            }
+            mainView.addView(customTableView);
+        }
     }
 
 }
