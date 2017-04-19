@@ -17,6 +17,9 @@ import org.androidannotations.annotations.ViewById;
 @EBean
 public class CreateHallPresenterImp implements CreateHallPresenter {
 
+    private static final int DEFAULT_HALL_WIDTH = 680;
+    private static final int DEFAULT_HALL_HEIGHT = 680;
+
     @RootContext
     protected Context context;
 
@@ -32,8 +35,8 @@ public class CreateHallPresenterImp implements CreateHallPresenter {
 
         Integer width = hallSizeModel.getWidth();
         Integer height = hallSizeModel.getHeight();
-        if (width == null)  width  = 680;
-        if (height == null) height = 680;
+        if (width == null)  width  = DEFAULT_HALL_WIDTH;
+        if (height == null) height = DEFAULT_HALL_HEIGHT;
 
         float tempW = width / (float) Main.getWidth();
         float tempH = height /(float) Main.getHeight();
