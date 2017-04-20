@@ -79,7 +79,7 @@ public class CreateHallPresenterImp implements CreateHallPresenter {
         for (Table table : listTable){
             CustomTableView customTableView = new CustomTableView(context, table);
             if (tableData.getChangeTable() != null) {
-                if (table.id.equals(tableData.getChangeTable().getIdTable())){
+                if (table.getId().equals(tableData.getChangeTable().getIdTable())){
                     tableData.setChangeTable(customTableView);
                 }
             }

@@ -47,7 +47,7 @@ public class TableData {
 
     public void removeTable(Integer idTable) {
         for (int i = 0 ; i < listTable.size(); ++i){
-            if (listTable.get(i).id.equals(idTable)){
+            if (listTable.get(i).getId().equals(idTable)){
                 listTable.remove(i);
                 break;
             }

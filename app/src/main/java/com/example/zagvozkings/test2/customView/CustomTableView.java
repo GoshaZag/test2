@@ -17,7 +17,7 @@ public class CustomTableView extends AppCompatTextView{
     private Integer idTable;
     private int height = 100;
     private int width = 100;
-    public TypeTable type = TypeTable.rectangle;
+    private TypeTable type = TypeTable.rectangle;
 
     public CustomTableView(Context context) {
         super(context);
@@ -67,15 +67,18 @@ public class CustomTableView extends AppCompatTextView{
     }
 
     public void setTable(Table table) {
-        idTable = table.id;
-        setText(table.name);
-        setType(table.type);
-        setSize(table.width, table.height);
-        setRotation(table.rotate);
-        setMargin(table.x, table.y);
+        idTable = table.getId();
+        setText(table.getName());
+        setType(table.getType());
+        setSize(table.getWidth(), table.getHeight());
+        setRotation(table.getRotate());
+        setMargin(table.getX(), table.getY());
     }
 
     public Integer getIdTable() {
         return idTable;
+    }
+    public TypeTable getType() {
+        return type;
     }
 }

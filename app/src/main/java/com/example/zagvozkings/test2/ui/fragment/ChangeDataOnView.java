@@ -108,7 +108,7 @@ class ChangeDataOnView {
         FRX.setText(String.valueOf((int)((oldTableView.getLeft() + oldTableView.getWidth() / 2) * scale)));
         FRY.setText(String.valueOf((int)((oldTableView.getTop() + oldTableView.getHeight() / 2) * scale)));
 
-        TypeTable typeTable = oldTableView.type;
+        TypeTable typeTable = oldTableView.getType();
         switch (typeTable){
             case cycle:
                 TableCicle.setChecked(true);
