@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.zagvozkings.test2.storage.Table;
+import com.example.zagvozkings.test2.storage.TableData_;
 
 public class HallLayout extends RelativeLayout{
 
@@ -62,6 +63,29 @@ public class HallLayout extends RelativeLayout{
         this.HEIGHT = HEIGHT;
     }
 
+    public void update() {
+        if (WIDTH == null) WIDTH = DEFAULT_HALL_WIDTH;
+        if (HEIGHT == null) HEIGHT = DEFAULT_HALL_HEIGHT;
+
+        double tempW = WIDTH / (double) getWidth();
+        double tempH = HEIGHT / (double) getHeight();
+
+        scale = Math.max(tempW, tempH);
+        for (int i = 0; i < getChildCount(); ++i){
+            if (getChildAt(i) instanceof CustomTableLayout){
+                CustomTableLayout tableLayout = (CustomTableLayout)getChildAt(i);
+                Table table = TableData_.getInstance_(getContext()).getTableForId(tableLayout.getId());
+                RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                        (int) (table.getWidth() / scale),
+                        (int) (table.getHeight() / scale));
+                lp.setMargins(
+                        (int) (table.getX() / scale),
+                        (int) (table.getY() / scale), 0, 0);
+                tableLayout.setLayoutParams(lp);
+            }
+        }
+    }
+
     public void setTable(Table table) {
         final CustomTableLayout tableView = new CustomTableLayout(getContext());
         tableView.setTable(table);
@@ -82,8 +106,6 @@ public class HallLayout extends RelativeLayout{
     public void setTableOnLongClickListener(OnLongClickListener onLongClickListener){
         this.onLongClickListener = onLongClickListener;
     }
-
-
 
     //собственно сам стол
     private class CustomTableLayout extends RelativeLayout{
