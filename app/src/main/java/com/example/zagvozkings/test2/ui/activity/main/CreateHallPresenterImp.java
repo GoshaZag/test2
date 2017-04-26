@@ -65,10 +65,10 @@ public class CreateHallPresenterImp implements CreateHallPresenter {
 
         //Для приближения---------------------------
 
+        final ScaleGestureDetector SGD = new ScaleGestureDetector(context,new ScaleListener());
         Main.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                ScaleGestureDetector SGD = new ScaleGestureDetector(context,new ScaleListener());
                 SGD.onTouchEvent(event);
                 return true;
             }
