@@ -3,7 +3,7 @@ package com.example.zagvozkings.test2.ui.fragment;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import com.example.zagvozkings.test2.utility.TypeTable;
+import com.example.zagvozkings.test2.R;
 import com.example.zagvozkings.test2.ui.fragment.interfaces.CreateTableModel;
 
 import org.androidannotations.annotations.EBean;
@@ -95,10 +95,10 @@ public class CreateTableModelImp implements CreateTableModel{
     }
 
     @Override
-    public TypeTable getType() {
+    public Integer getResId() {
         //ну если определили ширину и высоту, то с остальным не должно быть проблем
-        if (TableCicle.isChecked()) return TypeTable.cycle;
-        if (TableRectangle.isChecked()) return TypeTable.rectangle;
+        if (TableCicle.isChecked()) return R.drawable.table_cicle;
+        if (TableRectangle.isChecked()) return R.drawable.table_rectangle;
         return null;
     }
 }

@@ -1,17 +1,12 @@
 package com.example.zagvozkings.test2.ui.activity.main;
 
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-
 import com.example.zagvozkings.test2.R;
-import com.example.zagvozkings.test2.customView.CustomTableView;
-import com.example.zagvozkings.test2.storage.TableData;
+import com.example.zagvozkings.test2.customView.HallLayout;
 import com.example.zagvozkings.test2.ui.activity.BaseActivity;
 import com.example.zagvozkings.test2.ui.activity.main.interfaces.CreateHallPresenter;
 import com.example.zagvozkings.test2.ui.activity.main.interfaces.MainView;
 import com.example.zagvozkings.test2.ui.fragment.FragmentAddTable_;
+import com.example.zagvozkings.test2.storage.Table;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -22,65 +17,37 @@ import org.androidannotations.annotations.ViewById;
 @EActivity(R.layout.activity_main)
 public class MainActivity extends BaseActivity implements MainView{
 
-    @ViewById
-    protected LinearLayout Main;
-
-    @Bean
-    protected TableData tableData;
-
     @Bean(CreateHallPresenterImp.class)
     protected CreateHallPresenter createHallPresenter;
 
-    protected RelativeLayout MainHall;
+    @ViewById
+    protected HallLayout MainHall;
 
     @AfterViews
     protected void createHall(){
-        final MainView mainView = this;
-        //нужно делать относительно разметки для зала, т.к. она может быть меньше экрана))
-        Main.post(new Runnable() {
+        final MainView view = this;
+        MainHall.post(new Runnable() {
             @Override
             public void run() {
-                createHallPresenter.init(mainView);
+                createHallPresenter.init(view);
             }
         });
     }
 
     @Click(R.id.MaimADD)
     protected void showSelected(){
-        //будем создавать новый, ане редактировать.
-        //в обоих случаях используем один и тот же диалог
-        tableData.setChangeTable(null);
         openDialog(new FragmentAddTable_());
     }
 
     @Override
-    public void addView(final CustomTableView view){
-        if (MainHall != null && view != null) {
-            //если мы редактируем стол, то он привязан к залу
-            //по сути мы не редактируем стол, а выносим старый и заносим новый
-            //старый нужно вынести из зала)))
-            ViewGroup parentView = (ViewGroup) view.getParent();
-            if (parentView != null)
-                parentView.removeView(view);
-            MainHall.addView(view);
-            //если сильно нажать на стол, то он сломается, и мы его меняем
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    FragmentAddTable_ dialog = new FragmentAddTable_();
-                    tableData.setChangeTable(view);
-                    openDialog(dialog);
-                }
-            });
-        }
+    public void addTable(Table table) {
+        if (MainHall != null && table != null)
+            MainHall.setTable(table);
     }
 
     @Override
-    public void addHall(RelativeLayout mainHall) {
-        if (Main != null && mainHall != null){
-            MainHall = mainHall;
-            Main.addView(mainHall);
-        }
+    public void ChangeTable(Table table) {
+        if (MainHall != null && table != null)
+            MainHall.changeTable(table);
     }
-
 }

@@ -1,17 +1,12 @@
-package com.example.zagvozkings.test2.utility;
+package com.example.zagvozkings.test2.storage;
 
 public class Table {
 
-    private Integer id;
+    private Integer id, resId, width, height, x, y;
     private String name;
-    private TypeTable type;
-    private Integer width;
-    private Integer height;
-    private Integer x;
-    private Integer y;
     private Float rotate;
 
-    public Table(Integer id, String name, TypeTable type, int width, int height, int x, int y, Float rotate) {
+    public Table(Integer id, String name, Integer resId, int width, int height, int x, int y, Float rotate) {
         this.id = id;
         this.name = name;
         this.x = x;
@@ -19,12 +14,12 @@ public class Table {
         this.width = width;
         this.height = height;
         this.rotate = rotate;
-        this.type = type;
+        this.resId = resId;
     }
 
     public Integer   getId()    { return id;    }
     public String    getName()  { return name;  }
-    public TypeTable getType()  { return type;  }
+    public Integer   getResId() { return resId; }
     public Integer   getWidth() { return width; }
     public Integer   getHeight(){ return height;}
     public Float     getRotate(){ return rotate;}

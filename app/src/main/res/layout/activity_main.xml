@@ -22,6 +22,14 @@
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <com.example.zagvozkings.test2.customView.HallLayout
+            android:id="@+id/MainHall"
+            android:background="@color/colorPrimaryDark"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </com.example.zagvozkings.test2.customView.HallLayout>
+
     </LinearLayout>
 
 </LinearLayout>

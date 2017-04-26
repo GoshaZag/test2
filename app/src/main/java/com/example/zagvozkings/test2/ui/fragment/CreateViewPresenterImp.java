@@ -3,11 +3,9 @@ package com.example.zagvozkings.test2.ui.fragment;
 import android.content.Context;
 import android.widget.Toast;
 
-import com.example.zagvozkings.test2.customView.CustomTableView;
 import com.example.zagvozkings.test2.storage.TableData;
-import com.example.zagvozkings.test2.ui.activity.BaseActivity;
-import com.example.zagvozkings.test2.utility.Table;
-import com.example.zagvozkings.test2.utility.TypeTable;
+import com.example.zagvozkings.test2.ui.activity.main.MainActivity;
+import com.example.zagvozkings.test2.storage.Table;
 import com.example.zagvozkings.test2.ui.fragment.interfaces.AddTableView;
 import com.example.zagvozkings.test2.ui.fragment.interfaces.CreateTableModel;
 import com.example.zagvozkings.test2.ui.fragment.interfaces.CreateViewPresenter;
@@ -22,14 +20,14 @@ public class CreateViewPresenterImp implements CreateViewPresenter{
     @RootContext
     protected Context context;
     @RootContext
-    protected BaseActivity base;
+    protected MainActivity mainActivity;
 
     @Bean(CreateTableModelImp.class)
     protected CreateTableModel tableModel;
     @Bean
     protected TableData tableData;
 
-    public void init(AddTableView view) {
+    public void init(AddTableView view, Integer id) {
 
         String name = tableModel.getName();
         if (name == null || name.equals("")){
@@ -37,8 +35,8 @@ public class CreateViewPresenterImp implements CreateViewPresenter{
             return;
         }
 
-        TypeTable type = tableModel.getType();
-        if (type == null){
+        Integer resId = tableModel.getResId();
+        if (resId == null){
             showToast("Выбирите тим стола");
             return;
         }
@@ -50,20 +48,15 @@ public class CreateViewPresenterImp implements CreateViewPresenter{
             return;
         }
 
-        //вот и новый стол, он будет с такими параметрами
-        Table table = new Table(tableData.getID(), name, type, width, height, tableModel.getX(), tableModel.getY(), tableModel.getRotate());
-        //нужно ли выносить старый? (проверяем редактируем ли старый или делаем новый)
-        CustomTableView tableView = tableData.getChangeTable();
-        if (tableView == null) {
-            tableView = new CustomTableView(context);
+        if (id == null) {
+            Table table = new Table(tableData.getID(), name, resId, width, height, tableModel.getX(), tableModel.getY(), tableModel.getRotate());
+            tableData.setTableView(table);
+            mainActivity.addTable(table);
         } else {
-            tableData.removeTable(tableView.getIdTable());
+            Table table = new Table(id, name, resId, width, height, tableModel.getX(), tableModel.getY(), tableModel.getRotate());
+            tableData.setChangeTable(table);
+            mainActivity.ChangeTable(table);
         }
-        tableData.setTableView(table);//добавим стол в бд
-        tableView.setTable(table);//отправим данные в виев
-
-        view.addTable(tableView);
-
     }
 
     //аа-аа-а что-то не так!!
@@ -71,5 +64,4 @@ public class CreateViewPresenterImp implements CreateViewPresenter{
         if (context != null && message!= null)
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
-
 }

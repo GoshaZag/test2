@@ -1,7 +1,6 @@
 package com.example.zagvozkings.test2.storage;
 
-import com.example.zagvozkings.test2.customView.CustomTableView;
-import com.example.zagvozkings.test2.utility.Table;
+import com.example.zagvozkings.test2.R;
 
 import org.androidannotations.annotations.EBean;
 
@@ -11,16 +10,17 @@ import java.util.List;
 @EBean(scope = EBean.Scope.Singleton)
 public class TableData {
 
-    private CustomTableView changeTable;
     private float scale;
     private List<Table> listTable;
     private Integer startId = 1000000;
 
-    public CustomTableView getChangeTable() {
-        return changeTable;
-    }
-    public void setChangeTable(CustomTableView changeTable) {
-        this.changeTable = changeTable;
+    public void setChangeTable(Table table) {
+        for (int i = 0 ; i < listTable.size(); ++i){
+            if (listTable.get(i).getId().equals(table.getId())){
+                listTable.set(i, table);
+                break;
+            }
+        }
     }
 
     public void setScale(float scale) {
@@ -31,12 +31,23 @@ public class TableData {
     }
 
     public void setTableView(Table table) {
-        if (listTable == null) listTable = new ArrayList<>();
-        listTable.add(table);
+        if (listTable == null)
+            createListTable();
+        if (table != null)
+            listTable.add(table);
     }
 
     public List<Table> getListTable() {
+        if (listTable == null)
+            createListTable();
         return listTable;
+    }
+
+    private void createListTable() {
+        listTable = new ArrayList<>();
+        listTable.add(new Table(1, "Большой Стол", R.drawable.table_rectangle, 340, 340, 0, 0, 180f));
+        listTable.add(new Table(2, "Круглый Стол", R.drawable.table_cicle, 200, 200, 340, 340, 0f));
+        listTable.add(new Table(3, "Малый Стол", R.drawable.table_rectangle, 120, 120, 530, 530, 45f));
     }
 
     public Integer getID() {
@@ -52,5 +63,14 @@ public class TableData {
                 break;
             }
         }
+    }
+
+    public Table getTableForId(Integer idTable) {
+        for (int i = 0 ; i < listTable.size(); ++i){
+            if (listTable.get(i).getId().equals(idTable)){
+                return listTable.get(i);
+            }
+        }
+        return null;
     }
 }
