@@ -18,7 +18,7 @@ public class HallLayout extends RelativeLayout{
     private Integer WIDTH = null;
     private Integer HEIGHT = null;
 
-    private float scale = 1;
+    private double scale = 1;
     private OnClickListener onClickListener;
     private OnLongClickListener onLongClickListener;
 
@@ -45,8 +45,8 @@ public class HallLayout extends RelativeLayout{
                 if (WIDTH == null) WIDTH = DEFAULT_HALL_WIDTH;
                 if (HEIGHT == null) HEIGHT = DEFAULT_HALL_HEIGHT;
 
-                float tempW = WIDTH / (float) getWidth();
-                float tempH = HEIGHT / (float) getHeight();
+                double tempW = WIDTH / (double) getWidth();
+                double tempH = HEIGHT / (double) getHeight();
                 scale = Math.max(tempW, tempH);
                 //откорректируем зал
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
@@ -63,16 +63,9 @@ public class HallLayout extends RelativeLayout{
     }
 
     public void setTable(Table table) {
-        setTable(
-                table.getId(),
-                table.getName(),
-                table.getResId(),
-                table.getWidth(),
-                table.getHeight(),
-                table.getX(),
-                table.getY(),
-                table.getRotate()
-        );
+        final CustomTableLayout tableView = new CustomTableLayout(getContext());
+        tableView.setTable(table);
+        addView(tableView);
     }
     public void changeTable(Table table) {
         if (table == null) return;
@@ -83,44 +76,6 @@ public class HallLayout extends RelativeLayout{
         setTable(table);
     }
 
-    public void setTable(Integer id, String name, Integer resId, final int width, final int height, final int x, final int y, Float rotate){
-        final RelativeLayout table = new RelativeLayout(getContext());
-        //зададим id
-        table.setId(id);
-        //поворот
-        table.setRotation(rotate);
-        //название
-        //к верх ногами и по диагонали читать не удобно
-        TextView tableText = new TextView(getContext());
-        tableText.setGravity(Gravity.CENTER);
-        tableText.setText(name);
-        tableText.setRotation(-rotate);
-        table.addView(tableText);
-        //фон стола
-        //хочешь круглы, хочешь квадратный, хочешь восмерки
-        //можно красивый стол, а можно и сращный, весь покарябаный и закленый жвачками
-        table.setBackgroundResource(resId);
-        table.setGravity(Gravity.CENTER);
-        //Нужно тыкать? тыкай!
-        table.setOnLongClickListener(onLongClickListener);
-        table.setOnClickListener(onClickListener);
-        addView(table);
-
-        //длина и ширина, отступы
-        table.post(new Runnable() {
-            @Override
-            public void run() {
-                RelativeLayout.LayoutParams lpv = new RelativeLayout.LayoutParams(
-                        (int) (width / scale),
-                        (int) (height / scale));
-                lpv.setMargins(
-                        (int) (x / scale),
-                        (int) (y / scale), 0, 0);
-                table.setLayoutParams(lpv);
-            }
-        });
-    }
-
     public void setTableOnClickListener(OnClickListener onClickListener){
         this.onClickListener = onClickListener;
     }
@@ -128,4 +83,60 @@ public class HallLayout extends RelativeLayout{
         this.onLongClickListener = onLongClickListener;
     }
 
+
+
+    //собственно сам стол
+    private class CustomTableLayout extends RelativeLayout{
+
+        private int height;
+        private int width;
+
+        public CustomTableLayout(Context context) {
+            super(context);
+        }
+
+        public void setTable(final Table table) {
+            this.height = table.getHeight();
+            this.width = table.getWidth();
+            setId(table.getId());
+            //поворот
+            setRotation(table.getRotate());
+            //название
+            //к верх ногами и по диагонали читать не удобно
+            TextView tableText = new TextView(getContext());
+            tableText.setGravity(Gravity.CENTER);
+            tableText.setText(table.getName());
+            tableText.setRotation(-table.getRotate());
+            addView(tableText);
+            //фон стола
+            //хочешь круглы, хочешь квадратный, хочешь восмерки
+            //можно красивый стол, а можно и сращный, весь покарябаный и закленый жвачками
+            setBackgroundResource(table.getResId());
+            setGravity(Gravity.CENTER);
+            //Нужно тыкать? тыкай!
+            setOnLongClickListener(onLongClickListener);
+            setOnClickListener(onClickListener);
+
+            //длина и ширина, отступы
+            post(new Runnable() {
+                @Override
+                public void run() {
+                    RelativeLayout.LayoutParams lpv = new RelativeLayout.LayoutParams(
+                            (int) (width / scale),
+                            (int) (height / scale));
+                    lpv.setMargins(
+                            (int) (table.getX() / scale),
+                            (int) (table.getY() / scale), 0, 0);
+                    measure((int) (width / scale), (int) (height / scale));
+                    setLayoutParams(lpv);
+                }
+            });
+        }
+
+        @Override
+        protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+            setMeasuredDimension((int) (width / scale), (int) (height / scale));
+        }
+    }
 }
